@@ -1,14 +1,25 @@
-void setup()
-{
-  size(500,500);
-  noStroke();
+import processing.serial.*;
+import cc.arduino.*;
+Arduino arduino;
+
+public void setup() {
+  size(500, 500);
+  arduino = new Arduino(this, Arduino.list()[0], 57600); //change the [0] to a [1] or [2] etc. if your program doesn't work
 }
-void draw()
+  
+public void draw()
 {
+  background(50,180,50);
   noStroke();
   //water
+  int waterY = arduino.analogRead(5);
+  System.out.println(waterY);
   fill (0,150,255);
-  rect(0,400,500,100);
+  if (waterY < 380){
+    rect(0,(waterY),500,(500-waterY));
+  } else {
+    rect(0,380,500,120);
+  }
   
   //body
   fill (250,190,0);
